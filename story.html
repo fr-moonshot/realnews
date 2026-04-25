@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A Real News story breakdown with evidence confidence, coverage balance, claims, sources and evidence links.">
+    <title>Story breakdown | Real News</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Real News home">
+        <span class="brand-mark">RN</span>
+        <span>
+          <strong>Real News</strong>
+          <small>See the story. See the spin. See the evidence.</small>
+        </span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="./index.html#stories">Stories</a>
+        <a href="./index.html#method">Method</a>
+      </nav>
+    </header>
+
+    <main id="story-root" class="story-page" aria-live="polite">
+      <section class="empty-state">
+        <h1>Loading story breakdown</h1>
+        <p>Checking the static story dataset.</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Evidence confidence is an estimate from visible signals. It is not a claim of absolute truth.</p>
+    </footer>
+
+    <script src="./data.js"></script>
+    <script src="./story.js"></script>
+  </body>
+</html>
