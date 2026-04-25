@@ -11,7 +11,7 @@
     root.innerHTML = `
       <section class="empty-state">
         <h1>Story not found</h1>
-        <p class="muted">The static story dataset did not load.</p>
+        <p>The static story file did not load.</p>
         <a class="button primary" href="./index.html">Back to stories</a>
       </section>
     `;
@@ -20,162 +20,114 @@
 
   document.title = `${story.title} | Real News`;
   root.innerHTML = renderStory(story);
+  wireEvidenceToggles(document);
 })();
 
 function renderStory(story) {
+  const rankedSources = sortSources(story.articles);
+
   return `
-    <section class="story-layout">
-      <div>
-        <div class="badge-row">
-          <span class="badge">${escapeHtml(story.category)}</span>
-          <span class="badge evidence">${story.articles.length} articles found</span>
-          <span class="badge">Demo summary</span>
-        </div>
-        <h1 class="story-title">${escapeHtml(story.title)}</h1>
-        <p class="hero-text">${escapeHtml(story.summary)}</p>
-      </div>
-      <aside class="card">
-        <div class="metric-row">
-          <span>Evidence confidence</span>
-          <strong>${story.confidence}%</strong>
-        </div>
-        <div class="meter" aria-hidden="true"><span style="width: ${story.confidence}%"></span></div>
-        ${renderCoverage(story.coverage)}
-      </aside>
-    </section>
-
-    <section class="panel-grid">
-      <article class="card">
-        <h3>What the left is saying</h3>
-        <p class="summary">${escapeHtml(story.framing.left)}</p>
-      </article>
-      <article class="card">
-        <h3>What the centre is saying</h3>
-        <p class="summary">${escapeHtml(story.framing.centre)}</p>
-      </article>
-      <article class="card">
-        <h3>What the right is saying</h3>
-        <p class="summary">${escapeHtml(story.framing.right)}</p>
-      </article>
-    </section>
-
-    <section class="stack section-reset">
-      <article class="card">
-        <div class="table-title">
-          <h3>Claims table</h3>
-          <span class="muted">Evidence status, not truth labels</span>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Claim</th>
-                <th>Claimant</th>
-                <th>Evidence status</th>
-                <th>Confidence</th>
-                <th>Links</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${story.claims.map(renderClaim).join("")}
-            </tbody>
-          </table>
-        </div>
-      </article>
-
-      <article class="card">
-        <h3>Source credibility</h3>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Source</th>
-                <th>Bias rating</th>
-                <th>Factuality</th>
-                <th>Credibility</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${story.articles.map(renderSource).join("")}
-            </tbody>
-          </table>
-        </div>
-      </article>
-
-      <article class="card">
-        <h3>Scoring explanation</h3>
-        <div class="score-list">
-          ${story.scoring.map(renderScore).join("")}
-        </div>
-        ${story.limitations.length ? `
-          <div class="empty-state" style="margin-top: 1rem; box-shadow: none;">
-            <strong>Known limitations</strong>
-            <ul>
-              ${story.limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
-            </ul>
+    <article class="article-shell">
+      <header class="article-hero">
+        <div>
+          <div class="story-meta">
+            <span>${escapeHtml(story.category)}</span>
+            <span>${story.articles.length} sources compared</span>
           </div>
-        ` : ""}
-      </article>
-
-      <article class="card">
-        <h3>Evidence and source links</h3>
-        <div class="link-grid">
-          ${story.primarySources.map((link) => renderLink(link, "Primary evidence")).join("")}
-          ${story.articles.map((article) => renderLink({ label: `${article.source}: ${article.title}`, url: article.url }, "Article")).join("")}
+          <h1>${escapeHtml(story.title)}</h1>
+          <p class="article-dek">${escapeHtml(story.read || story.summary)}</p>
         </div>
-      </article>
-    </section>
+        <aside class="confidence-card">
+          <span>Confidence</span>
+          <strong>${story.confidence}%</strong>
+          <div class="meter" aria-hidden="true"><span style="width: ${story.confidence}%"></span></div>
+          <p>${confidenceLabel(story.confidence)}</p>
+        </aside>
+      </header>
+
+      <section class="article-body">
+        <div class="article-copy">
+          <p class="drop">
+            ${escapeHtml(story.summary)}
+          </p>
+          <p>
+            This briefing compares the strongest available reporting and highlights the version of events that is best supported right now. It does not claim final certainty. Where the evidence is thin, contested, or incomplete, that uncertainty stays visible.
+          </p>
+          <h2>What appears most supported</h2>
+          <ul class="plain-list">
+            ${story.claims.map((claim) => `
+              <li>
+                <strong>${escapeHtml(claim.status)}:</strong>
+                ${escapeHtml(claim.text)}
+              </li>
+            `).join("")}
+          </ul>
+          <h2>What still needs caution</h2>
+          <ul class="plain-list">
+            ${story.limitations.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+          <button class="icon-button evidence-toggle" type="button" aria-expanded="false" aria-controls="story-evidence">
+            ${sliderIcon()}
+            <span>Show evidence detail</span>
+          </button>
+        </div>
+
+        <aside class="article-sidebar">
+          <section class="side-box">
+            <h2>Sources, ranked</h2>
+            <ol class="source-ranking">
+              ${rankedSources.map((article) => `
+                <li>
+                  <a href="${escapeAttribute(article.url)}" target="_blank" rel="noreferrer">
+                    <strong>${escapeHtml(article.source)}</strong>
+                    <span>${article.credibility}/100 · ${escapeHtml(article.factuality)}</span>
+                  </a>
+                </li>
+              `).join("")}
+            </ol>
+          </section>
+          <section class="side-box">
+            <h2>Primary evidence</h2>
+            <div class="link-stack">
+              ${story.primarySources.map((link) => `
+                <a href="${escapeAttribute(link.url)}" target="_blank" rel="noreferrer">${escapeHtml(link.label)}</a>
+              `).join("")}
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <section id="story-evidence" class="evidence-drawer article-evidence" hidden>
+        <div class="evidence-grid">
+          <section>
+            <h2>Scoring detail</h2>
+            <ul>
+              ${story.scoring.map((item) => `
+                <li>
+                  <span>${escapeHtml(item.label)}</span>
+                  <strong>${item.points}/${item.weight}</strong>
+                </li>
+              `).join("")}
+            </ul>
+          </section>
+          <section>
+            <h2>Coverage spread</h2>
+            ${renderCoverage(story.coverage)}
+          </section>
+          <section>
+            <h2>How each side frames it</h2>
+            <p><strong>Left:</strong> ${escapeHtml(story.framing.left)}</p>
+            <p><strong>Centre:</strong> ${escapeHtml(story.framing.centre)}</p>
+            <p><strong>Right:</strong> ${escapeHtml(story.framing.right)}</p>
+          </section>
+        </div>
+      </section>
+    </article>
   `;
 }
 
-function renderClaim(claim) {
-  return `
-    <tr>
-      <td>${escapeHtml(claim.text)}</td>
-      <td>${escapeHtml(claim.claimant)}</td>
-      <td>${escapeHtml(claim.status)}</td>
-      <td>${claim.confidence}%</td>
-      <td>${claim.links.map((url) => `<a class="text-link" href="${escapeAttribute(url)}" target="_blank" rel="noreferrer">Link</a>`).join(" · ")}</td>
-    </tr>
-  `;
-}
-
-function renderSource(article) {
-  return `
-    <tr>
-      <td>
-        <strong>${escapeHtml(article.source)}</strong><br>
-        <span class="muted">${escapeHtml(article.domain)}</span>
-      </td>
-      <td>${escapeHtml(article.bias)}</td>
-      <td>${escapeHtml(article.factuality)}</td>
-      <td>${article.credibility}/100</td>
-    </tr>
-  `;
-}
-
-function renderScore(score) {
-  const percent = Math.round((score.points / score.weight) * 100);
-
-  return `
-    <div class="score-item">
-      <div class="score-head">
-        <strong>${escapeHtml(score.label)}</strong>
-        <span>${score.points}/${score.weight}</span>
-      </div>
-      <div class="meter" aria-hidden="true"><span style="width: ${percent}%"></span></div>
-      <p class="summary">${escapeHtml(score.note)}</p>
-    </div>
-  `;
-}
-
-function renderLink(link, type) {
-  return `
-    <a class="link-card" href="${escapeAttribute(link.url)}" target="_blank" rel="noreferrer">
-      <span class="badge ${type === "Primary evidence" ? "evidence" : ""}">${type}</span>
-      <p>${escapeHtml(link.label)}</p>
-    </a>
-  `;
+function sortSources(articles) {
+  return [...articles].sort((left, right) => right.credibility - left.credibility);
 }
 
 function renderCoverage(coverage) {
@@ -190,13 +142,43 @@ function renderCoverage(coverage) {
         ${coverage.right ? `<span class="coverage-right" style="width: ${width(coverage.right)}"></span>` : ""}
         ${coverage.unknown ? `<span class="coverage-unknown" style="width: ${width(coverage.unknown)}"></span>` : ""}
       </div>
-      <div class="coverage-legend">
-        <span><i class="dot coverage-left"></i>Left ${coverage.left}</span>
-        <span><i class="dot coverage-centre"></i>Centre ${coverage.centre}</span>
-        <span><i class="dot coverage-right"></i>Right ${coverage.right}</span>
-        <span><i class="dot coverage-unknown"></i>Unknown ${coverage.unknown}</span>
-      </div>
+      <p class="coverage-caption">Left ${coverage.left} · Centre ${coverage.centre} · Right ${coverage.right} · Unknown ${coverage.unknown}</p>
     </div>
+  `;
+}
+
+function wireEvidenceToggles(root) {
+  root.querySelectorAll(".evidence-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const targetId = button.getAttribute("aria-controls");
+      const drawer = targetId ? document.getElementById(targetId) : null;
+
+      if (!drawer) return;
+
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+      drawer.hidden = isOpen;
+      button.setAttribute("aria-expanded", String(!isOpen));
+      button.querySelector("span").textContent = isOpen ? "Show evidence detail" : "Hide evidence detail";
+    });
+  });
+}
+
+function confidenceLabel(value) {
+  if (value >= 75) return "Strong support from available reporting.";
+  if (value >= 60) return "Reasonable support, with open questions.";
+  return "Useful but incomplete evidence.";
+}
+
+function sliderIcon() {
+  return `
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M4 7h10"></path>
+      <path d="M18 7h2"></path>
+      <path d="M4 17h2"></path>
+      <path d="M10 17h10"></path>
+      <circle cx="16" cy="7" r="2"></circle>
+      <circle cx="8" cy="17" r="2"></circle>
+    </svg>
   `;
 }
 

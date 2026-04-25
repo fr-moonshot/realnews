@@ -3,29 +3,32 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A Real News story breakdown with evidence confidence, coverage balance, claims, sources and evidence links.">
-    <title>Story breakdown | Real News</title>
+    <meta name="description" content="A Real News article briefing with the clearest supported read, confidence percentage, source ranking and optional evidence detail.">
+    <title>Story | Real News</title>
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="./index.html" aria-label="Real News home">
-        <span class="brand-mark">RN</span>
-        <span>
-          <strong>Real News</strong>
-          <small>See the story. See the spin. See the evidence.</small>
-        </span>
-      </a>
-      <nav aria-label="Main navigation">
-        <a href="./index.html#stories">Stories</a>
-        <a href="./index.html#method">Method</a>
-      </nav>
+      <div class="masthead">
+        <a class="brand" href="./index.html" aria-label="Real News home">
+          <span class="brand-mark">RN</span>
+          <span>
+            <strong>Real News</strong>
+            <small>Apolitical. Evidence-led. Plain English.</small>
+          </span>
+        </a>
+        <nav aria-label="Sections">
+          <a href="./index.html#top">Top Stories</a>
+          <a href="./index.html#briefing">Briefing</a>
+          <a href="./index.html#about">How It Works</a>
+        </nav>
+      </div>
     </header>
 
-    <main id="story-root" class="story-page" aria-live="polite">
+    <main id="story-root" class="article-page" aria-live="polite">
       <section class="empty-state">
-        <h1>Loading story breakdown</h1>
-        <p>Checking the static story dataset.</p>
+        <h1>Loading story</h1>
+        <p>Checking the static story file.</p>
       </section>
     </main>
 

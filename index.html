@@ -3,119 +3,61 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Real News compares news coverage across perspectives and shows the evidence available for major story clusters.">
-    <title>Real News | Evidence confidence for current news</title>
+    <meta name="description" content="Real News is an apolitical, evidence-led news website that compares coverage and writes the clearest supported read of current stories.">
+    <title>Real News | The cleanest read on current stories</title>
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="./index.html" aria-label="Real News home">
-        <span class="brand-mark">RN</span>
-        <span>
-          <strong>Real News</strong>
-          <small>See the story. See the spin. See the evidence.</small>
-        </span>
-      </a>
-      <nav aria-label="Main navigation">
-        <a href="#stories">Stories</a>
-        <a href="#method">Method</a>
-      </nav>
+      <div class="masthead">
+        <a class="brand" href="./index.html" aria-label="Real News home">
+          <span class="brand-mark">RN</span>
+          <span>
+            <strong>Real News</strong>
+            <small>Apolitical. Evidence-led. Plain English.</small>
+          </span>
+        </a>
+        <nav aria-label="Sections">
+          <a href="#top">Top Stories</a>
+          <a href="#briefing">Briefing</a>
+          <a href="#about">How It Works</a>
+        </nav>
+      </div>
     </header>
 
-    <main>
-      <section class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Non-partisan news context</p>
-          <h1>The day's biggest stories, checked from every side.</h1>
-          <p class="hero-text">
-            We compare coverage across the political spectrum and show how much evidence is actually available.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="#stories">View today's stories</a>
-            <a class="button secondary" href="#method">How scoring works</a>
-          </div>
-        </div>
-
-        <aside class="signal-panel" aria-label="Credibility signal preview">
-          <div class="signal-panel-header">
-            <span>Evidence confidence</span>
-            <strong>74%</strong>
-          </div>
-          <div class="meter" aria-hidden="true"><span style="width: 74%"></span></div>
-          <div class="signal-grid">
-            <div>
-              <small>Sources</small>
-              <strong>16</strong>
-            </div>
-            <div>
-              <small>Primary links</small>
-              <strong>2</strong>
-            </div>
-            <div>
-              <small>Claims checked</small>
-              <strong>5</strong>
-            </div>
-          </div>
-          <div class="mini-spectrum" aria-hidden="true">
-            <span style="width: 28%"></span>
-            <span style="width: 44%"></span>
-            <span style="width: 18%"></span>
-            <span style="width: 10%"></span>
-          </div>
+    <main id="top">
+      <section class="front-page">
+        <div class="front-page-heading">
+          <p class="kicker">Today’s briefing</p>
+          <h1>Current stories, stripped back to the clearest supported read.</h1>
           <p>
-            Confidence is an evidence estimate, not a truth score. Unknowns stay visible.
+            Real News compares reporting across sources, ranks reliability, and gives a simple confidence percentage without the tribal noise.
           </p>
-        </aside>
+        </div>
+        <div id="lead-story" aria-live="polite"></div>
       </section>
 
-      <section id="stories" class="section">
+      <section id="briefing" class="section">
         <div class="section-heading">
-          <p class="eyebrow">Trending clusters</p>
-          <h2>Top 5 stories</h2>
+          <p class="kicker">Latest reads</p>
+          <h2>More stories worth understanding</h2>
         </div>
-        <div id="story-list" class="story-list" aria-live="polite"></div>
+        <div id="story-list" class="story-grid" aria-live="polite"></div>
       </section>
 
-      <section id="method" class="section method">
-        <div class="section-heading">
-          <p class="eyebrow">Transparent scoring</p>
-          <h2>What the confidence score means</h2>
+      <section id="about" class="about-strip">
+        <div>
+          <p class="kicker">What the percentage means</p>
+          <h2>Confidence, not certainty.</h2>
         </div>
-        <div class="method-grid">
-          <article>
-            <strong>25%</strong>
-            <span>Source reliability average</span>
-          </article>
-          <article>
-            <strong>20%</strong>
-            <span>Cross-spectrum corroboration</span>
-          </article>
-          <article>
-            <strong>20%</strong>
-            <span>Primary-source availability</span>
-          </article>
-          <article>
-            <strong>15%</strong>
-            <span>Fact-check and claim-review support</span>
-          </article>
-          <article>
-            <strong>10%</strong>
-            <span>Transparency signals</span>
-          </article>
-          <article>
-            <strong>10%</strong>
-            <span>Correction and factuality history</span>
-          </article>
-        </div>
-        <p class="method-note">
-          Real News does not label stories as true or false unless a cited fact-check supports that conclusion.
-          Missing source data, missing primary evidence, and limited coverage reduce confidence instead of being guessed.
+        <p>
+          The percentage reflects source reliability, corroboration across perspectives, primary evidence, claim-review support and missing context. The full evidence view is tucked behind the controls icon on each story.
         </p>
       </section>
     </main>
 
     <footer class="footer">
-      <p>Static MVP demo. Built for GitHub Pages. No tracking, comments, accounts, or article scraping.</p>
+      <p>Real News is a static public prototype. It does not scrape full articles, track readers, run comments, or claim absolute truth.</p>
     </footer>
 
     <script src="./data.js"></script>
