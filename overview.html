@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A Real News day overview ranking current story briefings by evidence confidence.">
-    <title>News Day Overview | Real News</title>
+    <meta name="description" content="A visual Real News chart ranking top stories by evidence confidence, uncertainty and attention.">
+    <title>Top Stories Chart | Real News</title>
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
@@ -20,40 +20,47 @@
         <nav aria-label="Sections">
           <a href="./index.html#top">Top Stories</a>
           <a href="./index.html#briefing">Briefing</a>
-          <a href="./overview.html">Overview</a>
+          <a href="./overview.html">Top Chart</a>
           <a href="./index.html#about">How It Works</a>
         </nav>
       </div>
     </header>
 
-    <main class="overview-page">
-      <section class="overview-hero">
+    <main class="chart-page">
+      <section class="chart-hero">
         <div>
-          <p class="kicker">News day overview</p>
-          <h1>Stories ranked by confidence.</h1>
-          <p>
-            A quick read of the day: what looks best supported, what needs caution, and which sources carry the most weight.
-          </p>
+          <h1>Top Real News stories</h1>
+          <p>Evidence confidence vs uncertainty · cross-perspective coverage</p>
         </div>
-        <aside class="overview-note">
-          <strong>Top 20 ready</strong>
-          <p>This static prototype currently shows the stories in `data.js`. With a live ingestion feed, this page renders the top 20 automatically.</p>
-        </aside>
+        <a class="chart-brand" href="./index.html" aria-label="Real News home">
+          <span></span>
+          <strong>real news</strong>
+        </a>
       </section>
 
-      <section class="scoreboard-shell">
-        <div class="scoreboard-head">
-          <span>Rank</span>
-          <span>Story</span>
-          <span>Confidence</span>
-          <span>Top Source</span>
+      <section class="chart-card">
+        <div class="chart-head" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span>Uncertainty</span>
+          <span>Evidence confidence</span>
+          <span>Attention</span>
         </div>
         <div id="scoreboard-list" aria-live="polite"></div>
+        <p class="chart-key">Score key: evidence confidence reflects source reliability, corroboration, primary evidence, transparency and unresolved limitations.</p>
+        <div class="chart-legend">
+          <span><i class="legend-confidence"></i>Evidence confidence</span>
+          <span><i class="legend-uncertainty"></i>Uncertainty / missing evidence</span>
+          <span><i class="legend-attention"></i>Attention score</span>
+          <span><i class="legend-left"></i>Left</span>
+          <span><i class="legend-centre"></i>Centre</span>
+          <span><i class="legend-right"></i>Right</span>
+        </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>Colour bands are confidence cues, not truth labels. Green means stronger available support; amber means open questions; grey means limited evidence.</p>
+      <p>The chart can render the top 20 once a live feed is connected. The current static prototype uses the stories in <code>data.js</code>.</p>
     </footer>
 
     <script src="./data.js"></script>
