@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A Real News day overview ranking current story briefings by evidence confidence.">
+    <title>News Day Overview | Real News</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="masthead">
+        <a class="brand" href="./index.html" aria-label="Real News home">
+          <span class="brand-mark">RN</span>
+          <span>
+            <strong>Real News</strong>
+            <small>Apolitical. Evidence-led. Plain English.</small>
+          </span>
+        </a>
+        <nav aria-label="Sections">
+          <a href="./index.html#top">Top Stories</a>
+          <a href="./index.html#briefing">Briefing</a>
+          <a href="./overview.html">Overview</a>
+          <a href="./index.html#about">How It Works</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="overview-page">
+      <section class="overview-hero">
+        <div>
+          <p class="kicker">News day overview</p>
+          <h1>Stories ranked by confidence.</h1>
+          <p>
+            A quick read of the day: what looks best supported, what needs caution, and which sources carry the most weight.
+          </p>
+        </div>
+        <aside class="overview-note">
+          <strong>Top 20 ready</strong>
+          <p>This static prototype currently shows the stories in `data.js`. With a live ingestion feed, this page renders the top 20 automatically.</p>
+        </aside>
+      </section>
+
+      <section class="scoreboard-shell">
+        <div class="scoreboard-head">
+          <span>Rank</span>
+          <span>Story</span>
+          <span>Confidence</span>
+          <span>Top Source</span>
+        </div>
+        <div id="scoreboard-list" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Colour bands are confidence cues, not truth labels. Green means stronger available support; amber means open questions; grey means limited evidence.</p>
+    </footer>
+
+    <script src="./data.js"></script>
+    <script src="./overview.js"></script>
+  </body>
+</html>
